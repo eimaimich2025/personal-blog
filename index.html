@@ -1,100 +1,301 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Eric's Blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric's Universe</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            padding: 20px; 
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             color: white;
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        .container { 
-            max-width: 800px; 
-            margin: 0 auto; 
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
-            border-radius: 10px;
+        
+        .atmospheric-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
         }
-        h1 { 
-            color: #4ecdc4; 
+        
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="cloud1" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1);stop-opacity:1" /><stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" /></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23cloud1)"/><circle cx="400" cy="150" r="80" fill="url(%23cloud1)"/><circle cx="600" cy="180" r="120" fill="url(%23cloud1)"/><circle cx="800" cy="160" r="90" fill="url(%23cloud1)"/><circle cx="1000" cy="190" r="110" fill="url(%23cloud1)"/></svg>') no-repeat center center;
+            background-size: cover;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            padding: 2rem 0;
             text-align: center;
-            font-size: 3em;
-            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .post { 
-            background: rgba(255,255,255,0.1); 
-            margin: 20px 0; 
-            padding: 20px; 
-            border-radius: 8px;
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .nav a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav a:hover {
+            color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(78, 205, 196, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .feature-card h3 {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+        
+        .blog-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .blog-section h2 {
+            color: #4ecdc4;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .blog-post {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border-left: 4px solid #4ecdc4;
         }
-        .post h2 { 
-            color: #4ecdc4; 
-            margin-top: 0;
-        }
-        .date { 
-            color: rgba(255,255,255,0.7); 
-            font-size: 0.9em;
-        }
-        .nav {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .nav a {
+        
+        .blog-post h3 {
             color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 8px 16px;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 20px;
-            transition: all 0.3s;
+            margin-bottom: 0.5rem;
         }
-        .nav a:hover {
-            background: rgba(255,255,255,0.2);
+        
+        .blog-post .date {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-post p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #4ecdc4;
+            border-color: #4ecdc4;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="atmospheric-bg">
+        <div class="clouds"></div>
+    </div>
+    
     <div class="container">
-        <h1>Eric's Personal Blog</h1>
+        <header class="header">
+            <div class="logo">Eric's Universe</div>
+            <nav class="nav">
+                <a href="#home">Home</a>
+                <a href="#blog">Blog</a>
+                <a href="#podcast">Podcast</a>
+                <a href="#store">Store</a>
+                <a href="#about">About</a>
+                <a href="#lessons">Lessons</a>
+                <a href="#prompts">Prompts</a>
+                <a href="#contact">Contact</a>
+                <a href="#admin">Admin</a>
+            </nav>
+        </header>
         
-        <div class="nav">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#blog">Blog</a>
-            <a href="#contact">Contact</a>
-        </div>
+        <main>
+            <section class="hero">
+                <h1>I'm Building the Future<br>One Idea at a Time</h1>
+                <p>Entrepreneur, AI enthusiast, and lifelong learner sharing insights on building businesses, embracing technology, and living with intention. Join me as I document the journey of turning ideas into reality.</p>
+            </section>
+            
+            <section class="feature-grid">
+                <div class="feature-card">
+                    <h3>Blog</h3>
+                    <p>Insights on entrepreneurship, AI, and life lessons from my journey</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Podcast</h3>
+                    <p>MPods episodes and conversations with innovators</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Store</h3>
+                    <p>Curated tools, books, and resources I use daily</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Prompts</h3>
+                    <p>AI prompt library and productivity tools</p>
+                </div>
+            </section>
+            
+            <section class="blog-section">
+                <h2>Latest Insights</h2>
+                <div class="blog-post">
+                    <h3>I love yebob</h3>
+                    <div class="date">Sep 12, 2025</div>
+                    <p>So so much</p>
+                </div>
+            </section>
+        </main>
         
-        <div class="post">
-            <h2>Welcome to My Blog!</h2>
-            <div class="date">December 15, 2024</div>
-            <p>This is my personal space where I share thoughts, experiences, and insights about technology, life, and everything in between.</p>
-        </div>
-        
-        <div class="post">
-            <h2>Getting Started with Web Development</h2>
-            <div class="date">December 10, 2024</div>
-            <p>Learning web development has been an incredible journey. From HTML basics to complex React applications, every step has been rewarding.</p>
-        </div>
-        
-        <div class="post">
-            <h2>Why I Love Coding</h2>
-            <div class="date">December 5, 2024</div>
-            <p>Coding is like solving puzzles every day. It challenges you to think creatively and logically, and the satisfaction of building something from scratch is unmatched.</p>
-        </div>
-        
-        <div class="post">
-            <h2>Building This Blog</h2>
-            <div class="date">December 1, 2024</div>
-            <p>Creating this blog has been a great learning experience. From setting up GitHub Pages to writing clean HTML and CSS, every step has taught me something new.</p>
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px; color: rgba(255,255,255,0.7);">
-            <p>&copy; 2024 Eric's Blog. Built with ❤️</p>
-        </div>
+        <footer class="footer">
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+            </div>
+            <p>© 2025 Digital Universe. Crafted with passion in the digital cosmos.</p>
+        </footer>
     </div>
 </body>
 </html>
