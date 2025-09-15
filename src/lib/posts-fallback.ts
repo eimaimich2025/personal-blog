@@ -1,5 +1,10 @@
 // Fallback posts data when Supabase is not configured
-export const fallbackPosts = [
+// Using a global variable to share data across requests
+declare global {
+  var __fallbackPosts: any[] | undefined;
+}
+
+export const fallbackPosts = globalThis.__fallbackPosts || [
   {
     id: 1,
     slug: 'i-love-yebob',
@@ -41,6 +46,11 @@ export const fallbackPosts = [
     updated_at: '2024-12-25T00:00:00Z'
   }
 ];
+
+// Initialize global variable if not set
+if (!globalThis.__fallbackPosts) {
+  globalThis.__fallbackPosts = fallbackPosts;
+}
 
 export interface Post {
   id?: number;
