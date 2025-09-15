@@ -1,22 +1,20 @@
-import { getAllPosts, getPostBySlug } from './posts-db';
+import { getAllPosts, getPostBySlug, getAllPostSlugs } from './posts-supabase';
 import { processMarkdown } from './markdown';
 
 export interface Post {
+  id?: number;
   slug: string;
   title: string;
   date: string;
   excerpt: string;
   content: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export function getSortedPostsData(): Post[] {
-  // Only run on server side
-  if (typeof window !== 'undefined') {
-    return [];
-  }
-
+export async function getSortedPostsData(): Promise<Post[]> {
   try {
-    const posts = getAllPosts();
+    const posts = await getAllPosts();
     return posts;
   } catch (error) {
     console.error('Error reading posts:', error);
@@ -25,7 +23,7 @@ export function getSortedPostsData(): Post[] {
 }
 
 export async function getPostData(slug: string): Promise<Post> {
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) {
     throw new Error(`Post with slug "${slug}" not found`);
   }
@@ -39,7 +37,11 @@ export async function getPostData(slug: string): Promise<Post> {
   };
 }
 
-export function getAllPostSlugs(): string[] {
-  const posts = getAllPosts();
-  return posts.map(post => post.slug);
+export async function getAllPostSlugs(): Promise<string[]> {
+  try {
+    return await getAllPostSlugs();
+  } catch (error) {
+    console.error('Error reading post slugs:', error);
+    return [];
+  }
 }

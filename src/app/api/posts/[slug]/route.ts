@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPostBySlug, updatePost, deletePost } from '@/lib/posts-db';
+import { getPostBySlug, updatePost, deletePost } from '@/lib/posts-supabase';
 
 export async function GET(
   request: NextRequest,
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    const post = await getPostBySlug(slug);
     
     if (!post) {
       return NextResponse.json(
@@ -36,26 +36,26 @@ export async function PUT(
 
     console.log('Updating post:', { slug, title, date, excerpt });
 
-    const updatedPost = updatePost(slug, {
+    // Create new slug from title if it changed
+    const newSlug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    const updatedPost = await updatePost(slug, {
       title,
       date,
       excerpt,
-      content
+      content,
+      slug: newSlug
     });
 
-    if (!updatedPost) {
-      return NextResponse.json(
-        { error: 'Post not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       slug: updatedPost.slug,
-      message: 'Post updated successfully' 
+      message: 'Post updated successfully'
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error updating post:', error);
     return NextResponse.json(
       { error: 'Failed to update post', details: error.message },
@@ -70,18 +70,18 @@ export async function DELETE(
 ) {
   try {
     const { slug } = await params;
-    const success = deletePost(slug);
+    const success = await deletePost(slug);
     
     if (!success) {
       return NextResponse.json(
-        { error: 'Post not found' },
-        { status: 404 }
+        { error: 'Failed to delete post' },
+        { status: 500 }
       );
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Post deleted successfully' 
+    return NextResponse.json({
+      success: true,
+      message: 'Post deleted successfully'
     });
   } catch (error) {
     console.error('Error deleting post:', error);
