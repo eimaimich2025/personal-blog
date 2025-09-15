@@ -37,7 +37,7 @@ export async function getPostData(slug: string): Promise<Post> {
   };
 }
 
-export async function getAllPostSlugs(): Promise<string[]> {
+export async function getAllPostSlugsFromDB(): Promise<string[]> {
   try {
     return await getAllPostSlugs();
   } catch (error) {
