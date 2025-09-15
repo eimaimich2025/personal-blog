@@ -4,6 +4,9 @@ import AtmosphericBackground from '@/components/AtmosphericBackground';
 import FadeInWrapper from '@/components/FadeInWrapper';
 import Link from 'next/link';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const posts = await getSortedPostsData();
   const featuredPost = posts[0]; // Get the latest post as featured

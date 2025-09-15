@@ -2,6 +2,9 @@ import { getSortedPostsData } from '@/lib/posts';
 import PostCard from '@/components/PostCard';
 import FadeInWrapper from '@/components/FadeInWrapper';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default async function Blog() {
   const posts = await getSortedPostsData();
   
