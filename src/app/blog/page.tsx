@@ -2,8 +2,8 @@ import { getSortedPostsData } from '@/lib/posts';
 import PostCard from '@/components/PostCard';
 import FadeInWrapper from '@/components/FadeInWrapper';
 
-export default function Blog() {
-  const posts = getSortedPostsData();
+export default async function Blog() {
+  const posts = await getSortedPostsData();
   
   // Mock categories and tags for demonstration
   const categories = [
