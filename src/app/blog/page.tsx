@@ -2,7 +2,7 @@ import { getSortedPostsData } from '@/lib/posts';
 import PostCard from '@/components/PostCard';
 import FadeInWrapper from '@/components/FadeInWrapper';
 
-// Force dynamic rendering
+// Force dynamic rendering to ensure fresh data from Supabase
 export const dynamic = 'force-dynamic';
 
 export default async function Blog() {
