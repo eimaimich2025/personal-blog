@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getPostData, getAllPostSlugs } from '@/lib/posts';
+import { getPostData, getAllPostSlugsFromDB } from '@/lib/posts';
 import PostContent from '@/components/PostContent';
 import Link from 'next/link';
 
@@ -10,7 +10,7 @@ interface PostPageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllPostSlugs();
+  const slugs = await getAllPostSlugsFromDB();
   return slugs.map((slug) => ({
     slug,
   }));
