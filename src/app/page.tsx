@@ -4,8 +4,8 @@ import AtmosphericBackground from '@/components/AtmosphericBackground';
 import FadeInWrapper from '@/components/FadeInWrapper';
 import Link from 'next/link';
 
-export default function Home() {
-  const posts = getSortedPostsData();
+export default async function Home() {
+  const posts = await getSortedPostsData();
   const featuredPost = posts[0]; // Get the latest post as featured
 
   return (
