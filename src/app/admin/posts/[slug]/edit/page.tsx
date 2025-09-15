@@ -13,7 +13,6 @@ interface PostPageProps {
 }
 
 export default function EditPostPage({ params }: PostPageProps) {
-
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
@@ -23,11 +22,14 @@ export default function EditPostPage({ params }: PostPageProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [slug, setSlug] = useState('');
 
   useEffect(() => {
     const loadPost = async () => {
       try {
-        const response = await fetch(`/api/posts/${params.slug}`);
+        const resolvedParams = await params;
+        setSlug(resolvedParams.slug);
+        const response = await fetch(`/api/posts/${resolvedParams.slug}`);
         if (response.ok) {
           const post = await response.json();
           setFormData({
@@ -45,14 +47,14 @@ export default function EditPostPage({ params }: PostPageProps) {
     };
 
     loadPost();
-  }, [params.slug]);
+  }, [params]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`/api/posts/${params.slug}`, {
+      const response = await fetch(`/api/posts/${slug}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -61,12 +63,17 @@ export default function EditPostPage({ params }: PostPageProps) {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log('Post updated successfully:', result);
         router.push('/admin');
       } else {
-        console.error('Failed to update post');
+        const error = await response.json();
+        console.error('Failed to update post:', error);
+        alert('Failed to update post. Please try again.');
       }
     } catch (error) {
       console.error('Error updating post:', error);
+      alert('Error updating post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

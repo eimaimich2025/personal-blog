@@ -47,6 +47,8 @@ export async function PUT(
     const { slug } = await params;
     const { title, date, excerpt, content } = await request.json();
 
+    console.log('Updating post:', { slug, title, date, excerpt });
+
     // Create new slug from title if it changed
     const newSlug = title
       .toLowerCase()
@@ -65,11 +67,13 @@ ${content}`;
     // Write file
     const filePath = path.join(postsDirectory, `${slug}.md`);
     fs.writeFileSync(filePath, frontmatter);
+    console.log('File written to:', filePath);
 
     // If slug changed, rename the file
     if (newSlug !== slug) {
       const newFilePath = path.join(postsDirectory, `${newSlug}.md`);
       fs.renameSync(filePath, newFilePath);
+      console.log('File renamed to:', newFilePath);
     }
 
     return NextResponse.json({ 
@@ -80,7 +84,7 @@ ${content}`;
   } catch (error) {
     console.error('Error updating post:', error);
     return NextResponse.json(
-      { error: 'Failed to update post' },
+      { error: 'Failed to update post', details: error.message },
       { status: 500 }
     );
   }
