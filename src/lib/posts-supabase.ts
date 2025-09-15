@@ -50,8 +50,16 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 // Create new post
 export async function createPost(postData: Omit<Post, 'id' | 'created_at' | 'updated_at'>): Promise<Post> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, cannot create posts in fallback mode');
-    throw new Error('Database not configured. Please set up Supabase to create posts.');
+    console.log('Supabase not configured, simulating post creation');
+    // Simulate creating a post by returning the data with a new ID
+    const newPost: Post = {
+      ...postData,
+      id: fallbackPosts.length + 1,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    fallbackPosts.unshift(newPost); // Add to beginning of array
+    return newPost;
   }
 
   const { data, error } = await supabase
@@ -71,8 +79,20 @@ export async function createPost(postData: Omit<Post, 'id' | 'created_at' | 'upd
 // Update existing post
 export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id' | 'slug' | 'created_at' | 'updated_at'>>): Promise<Post> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, cannot update posts in fallback mode');
-    throw new Error('Database not configured. Please set up Supabase to update posts.');
+    console.log('Supabase not configured, simulating post update');
+    const postIndex = fallbackPosts.findIndex(post => post.slug === slug);
+    if (postIndex === -1) {
+      throw new Error('Post not found');
+    }
+    
+    // Update the post in the fallback array
+    const updatedPost = {
+      ...fallbackPosts[postIndex],
+      ...postData,
+      updated_at: new Date().toISOString()
+    };
+    fallbackPosts[postIndex] = updatedPost;
+    return updatedPost;
   }
 
   const { data, error } = await supabase
@@ -96,8 +116,15 @@ export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id'
 // Delete post
 export async function deletePost(slug: string): Promise<boolean> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, cannot delete posts in fallback mode');
-    throw new Error('Database not configured. Please set up Supabase to delete posts.');
+    console.log('Supabase not configured, simulating post deletion');
+    const postIndex = fallbackPosts.findIndex(post => post.slug === slug);
+    if (postIndex === -1) {
+      return false;
+    }
+    
+    // Remove the post from the fallback array
+    fallbackPosts.splice(postIndex, 1);
+    return true;
   }
 
   const { error } = await supabase
