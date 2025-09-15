@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-
-const postsDirectory = path.join(process.cwd(), 'src/posts');
+import { getPostBySlug, updatePost, deletePost } from '@/lib/posts-db';
 
 export async function GET(
   request: NextRequest,
@@ -11,25 +7,16 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const filePath = path.join(postsDirectory, `${slug}.md`);
+    const post = getPostBySlug(slug);
     
-    if (!fs.existsSync(filePath)) {
+    if (!post) {
       return NextResponse.json(
         { error: 'Post not found' },
         { status: 404 }
       );
     }
 
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const matterResult = matter(fileContents);
-
-    return NextResponse.json({
-      slug,
-      title: matterResult.data.title,
-      date: matterResult.data.date,
-      excerpt: matterResult.data.excerpt,
-      content: matterResult.content,
-    });
+    return NextResponse.json(post);
   } catch (error) {
     console.error('Error reading post:', error);
     return NextResponse.json(
@@ -49,36 +36,23 @@ export async function PUT(
 
     console.log('Updating post:', { slug, title, date, excerpt });
 
-    // Create new slug from title if it changed
-    const newSlug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
+    const updatedPost = updatePost(slug, {
+      title,
+      date,
+      excerpt,
+      content
+    });
 
-    // Create frontmatter
-    const frontmatter = `---
-title: "${title}"
-date: "${date}"
-excerpt: "${excerpt}"
----
-
-${content}`;
-
-    // Write file
-    const filePath = path.join(postsDirectory, `${slug}.md`);
-    fs.writeFileSync(filePath, frontmatter);
-    console.log('File written to:', filePath);
-
-    // If slug changed, rename the file
-    if (newSlug !== slug) {
-      const newFilePath = path.join(postsDirectory, `${newSlug}.md`);
-      fs.renameSync(filePath, newFilePath);
-      console.log('File renamed to:', newFilePath);
+    if (!updatedPost) {
+      return NextResponse.json(
+        { error: 'Post not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ 
       success: true, 
-      slug: newSlug,
+      slug: updatedPost.slug,
       message: 'Post updated successfully' 
     });
   } catch (error) {
@@ -96,16 +70,14 @@ export async function DELETE(
 ) {
   try {
     const { slug } = await params;
-    const filePath = path.join(postsDirectory, `${slug}.md`);
+    const success = deletePost(slug);
     
-    if (!fs.existsSync(filePath)) {
+    if (!success) {
       return NextResponse.json(
         { error: 'Post not found' },
         { status: 404 }
       );
     }
-
-    fs.unlinkSync(filePath);
 
     return NextResponse.json({ 
       success: true, 
