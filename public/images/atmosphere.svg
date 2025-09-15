@@ -1,0 +1,66 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="atmosphere1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:1" />
+      <stop offset="30%" style="stop-color:rgba(200,180,255,0.2);stop-opacity:1" />
+      <stop offset="70%" style="stop-color:rgba(150,100,255,0.1);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(100,50,200,0.05);stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="atmosphere2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,200,255,0.4);stop-opacity:1" />
+      <stop offset="30%" style="stop-color:rgba(255,150,200,0.3);stop-opacity:1" />
+      <stop offset="70%" style="stop-color:rgba(200,100,150,0.2);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(150,50,100,0.1);stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="atmosphere3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(200,220,255,0.3);stop-opacity:1" />
+      <stop offset="30%" style="stop-color:rgba(150,180,255,0.2);stop-opacity:1" />
+      <stop offset="70%" style="stop-color:rgba(100,140,255,0.15);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(50,100,200,0.08);stop-opacity:1" />
+    </radialGradient>
+    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
+    </filter>
+    <filter id="gentleBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12"/>
+    </filter>
+  </defs>
+  
+  <!-- Large atmospheric cloud -->
+  <ellipse cx="600" cy="200" rx="400" ry="150" fill="url(#atmosphere1)" filter="url(#softBlur)" opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 30,-20; 0,0" dur="30s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="580" cy="180" rx="300" ry="120" fill="url(#atmosphere1)" filter="url(#softBlur)" opacity="0.4">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 25,-15; 0,0" dur="25s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="620" cy="220" rx="250" ry="100" fill="url(#atmosphere1)" filter="url(#softBlur)" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 35,-25; 0,0" dur="35s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Secondary atmospheric layer -->
+  <ellipse cx="300" cy="300" rx="250" ry="100" fill="url(#atmosphere2)" filter="url(#gentleBlur)" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -20,30; 0,0" dur="40s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="280" cy="280" rx="200" ry="80" fill="url(#atmosphere2)" filter="url(#gentleBlur)" opacity="0.3">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -15,25; 0,0" dur="35s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Third atmospheric layer -->
+  <ellipse cx="900" cy="350" rx="200" ry="80" fill="url(#atmosphere3)" filter="url(#gentleBlur)" opacity="0.4">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 25,-30; 0,0" dur="45s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="880" cy="330" rx="150" ry="60" fill="url(#atmosphere3)" filter="url(#gentleBlur)" opacity="0.3">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 20,-25; 0,0" dur="38s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Ethereal light rays -->
+  <path d="M 0,0 Q 300,100 600,200 T 1200,300" stroke="url(#atmosphere1)" stroke-width="2" fill="none" opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="8s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 0,100 Q 400,200 800,300 T 1200,400" stroke="url(#atmosphere2)" stroke-width="1.5" fill="none" opacity="0.2">
+    <animate attributeName="opacity" values="0.2;0.5;0.2" dur="10s" repeatCount="indefinite"/>
+  </path>
+  <path d="M 0,200 Q 500,300 1000,400 T 1200,500" stroke="url(#atmosphere3)" stroke-width="1" fill="none" opacity="0.25">
+    <animate attributeName="opacity" values="0.25;0.4;0.25" dur="12s" repeatCount="indefinite"/>
+  </path>
+</svg>

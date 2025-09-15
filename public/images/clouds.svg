@@ -1,0 +1,76 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="cloudGradient1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.8);stop-opacity:1" />
+      <stop offset="70%" style="stop-color:rgba(200,180,255,0.6);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(150,100,255,0.3);stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="cloudGradient2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,200,255,0.7);stop-opacity:1" />
+      <stop offset="70%" style="stop-color:rgba(255,150,200,0.5);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(200,100,150,0.2);stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="cloudGradient3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(200,220,255,0.6);stop-opacity:1" />
+      <stop offset="70%" style="stop-color:rgba(150,180,255,0.4);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(100,140,255,0.2);stop-opacity:1" />
+    </radialGradient>
+    <filter id="blur1" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+    <filter id="blur2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+  </defs>
+  
+  <!-- Cloud 1 -->
+  <ellipse cx="200" cy="150" rx="120" ry="60" fill="url(#cloudGradient1)" filter="url(#blur1)" opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 20,-10; 0,0" dur="15s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="180" cy="140" rx="80" ry="40" fill="url(#cloudGradient1)" filter="url(#blur1)" opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 15,-5; 0,0" dur="12s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="220" cy="160" rx="60" ry="30" fill="url(#cloudGradient1)" filter="url(#blur1)" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 10,-8; 0,0" dur="18s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Cloud 2 -->
+  <ellipse cx="800" cy="200" rx="150" ry="80" fill="url(#cloudGradient2)" filter="url(#blur2)" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -25,15; 0,0" dur="20s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="780" cy="190" rx="100" ry="50" fill="url(#cloudGradient2)" filter="url(#blur2)" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -20,10; 0,0" dur="16s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="820" cy="210" rx="70" ry="35" fill="url(#cloudGradient2)" filter="url(#blur2)" opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -15,12; 0,0" dur="22s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Cloud 3 -->
+  <ellipse cx="500" cy="100" rx="100" ry="50" fill="url(#cloudGradient3)" filter="url(#blur1)" opacity="0.6">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 30,-20; 0,0" dur="25s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="480" cy="90" rx="70" ry="35" fill="url(#cloudGradient3)" filter="url(#blur1)" opacity="0.4">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 25,-15; 0,0" dur="20s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="520" cy="110" rx="50" ry="25" fill="url(#cloudGradient3)" filter="url(#blur1)" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 20,-18; 0,0" dur="28s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Floating particles -->
+  <circle cx="100" cy="300" r="3" fill="rgba(255,255,255,0.6)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 50,-100; 0,0" dur="30s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="30s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="400" r="2" fill="rgba(200,180,255,0.8)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 80,-120; 0,0" dur="35s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="35s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="700" cy="350" r="4" fill="rgba(255,200,255,0.5)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -60,-80; 0,0" dur="40s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="40s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="900" cy="250" r="2.5" fill="rgba(150,200,255,0.7)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 40,-90; 0,0" dur="32s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="32s" repeatCount="indefinite"/>
+  </circle>
+</svg>
