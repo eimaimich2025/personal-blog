@@ -109,3 +109,4 @@ export function deletePost(slug: string): boolean {
 export function getAllPostSlugs(): string[] {
   return posts.map(post => post.slug);
 }
+

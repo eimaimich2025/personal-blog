@@ -98,7 +98,7 @@ export function updatePost(slug: string, postData: Partial<Omit<Post, 'id' | 'sl
   
   const postIndex = globalThis.__globalPosts.findIndex(post => post.slug === slug);
   if (postIndex === -1) {
-    throw new Error('Post not found');
+    throw new Error(`Post with slug "${slug}" not found`);
   }
   
   const updatedPost = {
@@ -106,6 +106,16 @@ export function updatePost(slug: string, postData: Partial<Omit<Post, 'id' | 'sl
     ...postData,
     updated_at: new Date().toISOString()
   };
+  
+  // If slug is being updated, we need to handle it specially
+  if (postData.slug && postData.slug !== slug) {
+    // Check if new slug already exists
+    const existingPostWithNewSlug = globalThis.__globalPosts.find(post => post.slug === postData.slug && post.id !== globalThis.__globalPosts[postIndex].id);
+    if (existingPostWithNewSlug) {
+      throw new Error(`A post with slug "${postData.slug}" already exists`);
+    }
+  }
+  
   globalThis.__globalPosts[postIndex] = updatedPost;
   return updatedPost;
 }
@@ -129,3 +139,4 @@ export function deletePost(slug: string): boolean {
 export function getAllPostSlugs(): string[] {
   return globalThis.__globalPosts?.map(post => post.slug) || [];
 }
+

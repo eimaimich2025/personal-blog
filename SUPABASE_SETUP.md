@@ -56,3 +56,4 @@ posts:
 ```
 
 Once set up, your blog will have a real database that persists all changes! 🎉
+

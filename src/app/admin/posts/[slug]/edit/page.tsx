@@ -65,11 +65,17 @@ export default function EditPostPage({ params }: PostPageProps) {
       if (response.ok) {
         const result = await response.json();
         console.log('Post updated successfully:', result);
-        router.push('/admin');
+        
+        // If slug changed, redirect to the new post URL
+        if (result.slugChanged && result.slug !== slug) {
+          router.push(`/admin/posts/${result.slug}/edit`);
+        } else {
+          router.push('/admin');
+        }
       } else {
         const error = await response.json();
         console.error('Failed to update post:', error);
-        alert('Failed to update post. Please try again.');
+        alert(`Failed to update post: ${error.error || 'Please try again.'}`);
       }
     } catch (error) {
       console.error('Error updating post:', error);

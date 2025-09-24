@@ -42,23 +42,66 @@ export async function PUT(
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
 
-    const updatedPost = await updatePost(slug, {
-      title,
-      date,
-      excerpt,
-      content,
-      slug: newSlug
-    });
+    // If slug changed, we need to handle it differently
+    if (newSlug !== slug) {
+      // First, get the existing post
+      const existingPost = await getPostBySlug(slug);
+      if (!existingPost) {
+        return NextResponse.json(
+          { error: 'Post not found' },
+          { status: 404 }
+        );
+      }
 
-    return NextResponse.json({
-      success: true,
-      slug: updatedPost.slug,
-      message: 'Post updated successfully'
-    });
+      // Check if new slug already exists
+      const existingPostWithNewSlug = await getPostBySlug(newSlug);
+      if (existingPostWithNewSlug && existingPostWithNewSlug.id !== existingPost.id) {
+        return NextResponse.json(
+          { error: 'A post with this title already exists' },
+          { status: 400 }
+        );
+      }
+
+      // Update with new slug
+      const updatedPost = await updatePost(slug, {
+        title,
+        date,
+        excerpt,
+        content,
+        slug: newSlug
+      });
+
+      return NextResponse.json({
+        success: true,
+        slug: updatedPost.slug,
+        message: 'Post updated successfully',
+        slugChanged: true
+      });
+    } else {
+      // Slug didn't change, normal update
+      const updatedPost = await updatePost(slug, {
+        title,
+        date,
+        excerpt,
+        content
+      });
+
+      return NextResponse.json({
+        success: true,
+        slug: updatedPost.slug,
+        message: 'Post updated successfully',
+        slugChanged: false
+      });
+    }
   } catch (error: any) {
     console.error('Error updating post:', error);
+    console.error('Error stack:', error.stack);
     return NextResponse.json(
-      { error: 'Failed to update post', details: error.message },
+      { 
+        error: 'Failed to update post', 
+        details: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
