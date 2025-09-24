@@ -1,5 +1,6 @@
 import { supabase, Post } from './supabase';
 import { getAllPosts as getGlobalPosts, getPostBySlug as getGlobalPostBySlug, createPost as createGlobalPost, updatePost as updateGlobalPost, deletePost as deleteGlobalPost, getAllPostSlugs as getGlobalPostSlugs } from './posts-global';
+import { getAllPosts as getFilePosts, getPostBySlug as getFilePostBySlug, createPost as createFilePost, updatePost as updateFilePost, deletePost as deleteFilePost, getAllPostSlugs as getFilePostSlugs } from './posts-file';
 
 // Check if Supabase is configured
 function isSupabaseConfigured(): boolean {
@@ -9,8 +10,8 @@ function isSupabaseConfigured(): boolean {
 // Get all posts
 export async function getAllPosts(): Promise<Post[]> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using global storage');
-    return getGlobalPosts();
+    console.log('Supabase not configured, using file storage');
+    return getFilePosts();
   }
 
   const { data, error } = await supabase
@@ -20,17 +21,17 @@ export async function getAllPosts(): Promise<Post[]> {
 
   if (error) {
     console.error('Error fetching posts:', error);
-    return getGlobalPosts();
+    return getFilePosts();
   }
 
-  return data || getGlobalPosts();
+  return data || getFilePosts();
 }
 
 // Get single post by slug
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using global storage');
-    return getGlobalPostBySlug(slug);
+    console.log('Supabase not configured, using file storage');
+    return getFilePostBySlug(slug);
   }
 
   const { data, error } = await supabase
@@ -41,7 +42,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   if (error) {
     console.error('Error fetching post:', error);
-    return getGlobalPostBySlug(slug);
+    return getFilePostBySlug(slug);
   }
 
   return data;
@@ -50,8 +51,8 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 // Create new post
 export async function createPost(postData: Omit<Post, 'id' | 'created_at' | 'updated_at'>): Promise<Post> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using global storage for creation');
-    return createGlobalPost(postData);
+    console.log('Supabase not configured, using file storage for creation');
+    return createFilePost(postData);
   }
 
   const { data, error } = await supabase
@@ -71,8 +72,8 @@ export async function createPost(postData: Omit<Post, 'id' | 'created_at' | 'upd
 // Update existing post
 export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id' | 'slug' | 'created_at' | 'updated_at'>>): Promise<Post> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using global storage for update');
-    return updateGlobalPost(slug, postData);
+    console.log('Supabase not configured, using file storage for update');
+    return updateFilePost(slug, postData);
   }
 
   const { data, error } = await supabase
@@ -96,8 +97,8 @@ export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id'
 // Delete post
 export async function deletePost(slug: string): Promise<boolean> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using global storage for deletion');
-    return deleteGlobalPost(slug);
+    console.log('Supabase not configured, using file storage for deletion');
+    return deleteFilePost(slug);
   }
 
   const { error } = await supabase
@@ -116,8 +117,8 @@ export async function deletePost(slug: string): Promise<boolean> {
 // Get all post slugs
 export async function getAllPostSlugs(): Promise<string[]> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using global storage');
-    return getGlobalPostSlugs();
+    console.log('Supabase not configured, using file storage');
+    return getFilePostSlugs();
   }
 
   const { data, error } = await supabase
@@ -126,8 +127,8 @@ export async function getAllPostSlugs(): Promise<string[]> {
 
   if (error) {
     console.error('Error fetching slugs:', error);
-    return getGlobalPostSlugs();
+    return getFilePostSlugs();
   }
 
-  return data?.map(post => post.slug) || getGlobalPostSlugs();
+  return data?.map(post => post.slug) || getFilePostSlugs();
 }
