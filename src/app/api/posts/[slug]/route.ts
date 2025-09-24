@@ -31,8 +31,16 @@ export async function PUT(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    console.log('=== PUT REQUEST START ===');
+    
     const { slug } = await params;
-    const { title, date, excerpt, content } = await request.json();
+    console.log('Slug from params:', slug);
+    
+    const requestBody = await request.json();
+    console.log('Request body:', requestBody);
+    
+    const { title, date, excerpt, content } = requestBody;
+    console.log('Extracted fields:', { title, date, excerpt, content });
 
     console.log('Updating post:', { slug, title, date, excerpt });
 
@@ -41,12 +49,16 @@ export async function PUT(
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
+    
+    console.log('Generated new slug:', newSlug);
 
     // If slug changed, we need to handle it differently
     if (newSlug !== slug) {
+      console.log('Slug changed, handling differently');
       // First, get the existing post
       const existingPost = await getPostBySlug(slug);
       if (!existingPost) {
+        console.log('Existing post not found');
         return NextResponse.json(
           { error: 'Post not found' },
           { status: 404 }
@@ -56,6 +68,7 @@ export async function PUT(
       // Check if new slug already exists
       const existingPostWithNewSlug = await getPostBySlug(newSlug);
       if (existingPostWithNewSlug && existingPostWithNewSlug.id !== existingPost.id) {
+        console.log('New slug already exists');
         return NextResponse.json(
           { error: 'A post with this title already exists' },
           { status: 400 }
@@ -63,6 +76,7 @@ export async function PUT(
       }
 
       // Update with new slug
+      console.log('Updating with new slug');
       const updatedPost = await updatePost(slug, {
         title,
         date,
@@ -71,6 +85,7 @@ export async function PUT(
         slug: newSlug
       });
 
+      console.log('Update successful with new slug:', updatedPost);
       return NextResponse.json({
         success: true,
         slug: updatedPost.slug,
@@ -79,6 +94,7 @@ export async function PUT(
       });
     } else {
       // Slug didn't change, normal update
+      console.log('Slug unchanged, normal update');
       const updatedPost = await updatePost(slug, {
         title,
         date,
@@ -86,6 +102,7 @@ export async function PUT(
         content
       });
 
+      console.log('Update successful:', updatedPost);
       return NextResponse.json({
         success: true,
         slug: updatedPost.slug,
@@ -94,8 +111,13 @@ export async function PUT(
       });
     }
   } catch (error: any) {
+    console.error('=== ERROR IN PUT REQUEST ===');
     console.error('Error updating post:', error);
+    console.error('Error message:', error.message);
     console.error('Error stack:', error.stack);
+    console.error('Error name:', error.name);
+    console.error('=== END ERROR ===');
+    
     return NextResponse.json(
       { 
         error: 'Failed to update post', 
