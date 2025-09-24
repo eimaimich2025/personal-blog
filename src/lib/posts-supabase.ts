@@ -11,22 +11,9 @@ function isSupabaseConfigured(): boolean {
 
 // Get all posts
 export async function getAllPosts(): Promise<Post[]> {
-  if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using persistent memory storage');
-    return getPersistentPosts();
-  }
-
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching posts:', error);
-    return getPersistentPosts();
-  }
-
-  return data || getPersistentPosts();
+  // Always use persistent memory storage for now
+  console.log('Using persistent memory storage for posts');
+  return getPersistentPosts();
 }
 
 // Get single post by slug

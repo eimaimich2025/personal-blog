@@ -11,48 +11,48 @@ export default function Store() {
           author: "James Clear",
           description: "The definitive guide to building good habits and breaking bad ones. This book completely changed how I approach personal development.",
           amazonUrl: "https://amazon.com/dp/0735211299",
-          image: "/api/placeholder/200/300"
+          image: "https://m.media-amazon.com/images/I/81bGKUa1e0L._AC_UL320_.jpg"
         },
         {
           title: "The Lean Startup",
           author: "Eric Ries",
           description: "Essential reading for any entrepreneur. The methodology in this book saved me months of wasted effort on my first startup.",
           amazonUrl: "https://amazon.com/dp/0307887898",
-          image: "/api/placeholder/200/300"
+          image: "https://m.media-amazon.com/images/I/81-QB7nDh4L._AC_UL320_.jpg"
         },
         {
           title: "Thinking, Fast and Slow",
           author: "Daniel Kahneman",
           description: "A masterclass in understanding human psychology and decision-making. Every business leader should read this.",
           amazonUrl: "https://amazon.com/dp/0374533555",
-          image: "/api/placeholder/200/300"
+          image: "https://m.media-amazon.com/images/I/81vQhOQ9KIL._AC_UL320_.jpg"
         }
       ]
     },
     {
-      title: "Tech I Use Daily",
-      description: "The tools and gadgets that power my productivity and creativity every day.",
+      title: "Malcolm Gladwell Collection",
+      description: "The books that opened my mind to new ways of thinking about success, psychology, and human behavior.",
       items: [
         {
-          title: "MacBook Pro 16-inch",
-          author: "Apple",
-          description: "My primary work machine. The M2 chip handles everything from coding to video editing without breaking a sweat.",
-          amazonUrl: "https://amazon.com/dp/B0B3C2Q5ZR",
-          image: "/api/placeholder/200/300"
+          title: "Outliers",
+          author: "Malcolm Gladwell",
+          description: "A fascinating exploration of what makes high-achievers different. Gladwell's insights on the 10,000-hour rule and cultural legacies changed how I think about success.",
+          amazonUrl: "https://amazon.com/dp/0316017930",
+          image: "https://m.media-amazon.com/images/I/81kqrwS-TnL._AC_UL320_.jpg"
         },
         {
-          title: "Logitech MX Master 3S",
-          author: "Logitech",
-          description: "The best mouse I've ever used. The precision and ergonomics make long coding sessions comfortable.",
-          amazonUrl: "https://amazon.com/dp/B09HM94VDS",
-          image: "/api/placeholder/200/300"
+          title: "The Tipping Point",
+          author: "Malcolm Gladwell",
+          description: "How little things can make a big difference. This book taught me about the power of social epidemics and how ideas spread.",
+          amazonUrl: "https://amazon.com/dp/0316346624",
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UL320_.jpg"
         },
         {
-          title: "Sony WH-1000XM5 Headphones",
-          author: "Sony",
-          description: "Perfect for focused work and podcast recording. The noise cancellation is incredible.",
-          amazonUrl: "https://amazon.com/dp/B09XS7JWHH",
-          image: "/api/placeholder/200/300"
+          title: "Blink",
+          author: "Malcolm Gladwell",
+          description: "The power of thinking without thinking. A brilliant look at how we make snap judgments and when to trust our instincts.",
+          amazonUrl: "https://amazon.com/dp/0316010669",
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UL320_.jpg"
         }
       ]
     },
@@ -68,11 +68,11 @@ export default function Store() {
           image: "/api/placeholder/200/300"
         },
         {
-          title: "Cal Newport's Deep Work",
+          title: "Deep Work",
           author: "Cal Newport",
           description: "The book that taught me how to focus in our distracted world. Essential for knowledge workers.",
           amazonUrl: "https://amazon.com/dp/1455586692",
-          image: "/api/placeholder/200/300"
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UL320_.jpg"
         },
         {
           title: "Standing Desk Converter",
@@ -125,13 +125,25 @@ export default function Store() {
                   {category.items.map((item, itemIndex) => (
                     <FadeInWrapper key={item.title} delay={itemIndex * 100}>
                       <div className="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
-                        {/* Product Image Placeholder */}
-                        <div className="w-full h-48 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg mb-4 flex items-center justify-center">
-                          <div className="text-center">
-                            <svg className="w-12 h-12 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <p className="text-white/80 text-sm">Product Image</p>
+                        {/* Product Image */}
+                        <div className="w-full h-48 rounded-lg mb-4 overflow-hidden">
+                          <img 
+                            src={item.image} 
+                            alt={`${item.title} by ${item.author}`}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              // Fallback to placeholder if image fails to load
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling.style.display = 'flex';
+                            }}
+                          />
+                          <div className="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center" style={{display: 'none'}}>
+                            <div className="text-center">
+                              <svg className="w-12 h-12 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                              </svg>
+                              <p className="text-white/80 text-sm">Product Image</p>
+                            </div>
                           </div>
                         </div>
 
