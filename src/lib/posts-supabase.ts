@@ -1,6 +1,6 @@
 import { supabase, Post } from './supabase';
 import { getAllPosts as getGlobalPosts, getPostBySlug as getGlobalPostBySlug, createPost as createGlobalPost, updatePost as updateGlobalPost, deletePost as deleteGlobalPost, getAllPostSlugs as getGlobalPostSlugs } from './posts-global';
-import { getAllPosts as getFilePosts, getPostBySlug as getFilePostBySlug, createPost as createFilePost, updatePost as updateFilePost, deletePost as deleteFilePost, getAllPostSlugs as getFilePostSlugs } from './posts-file';
+import { getAllPosts as getPersistentPosts, getPostBySlug as getPersistentPostBySlug, createPost as createPersistentPost, updatePost as updatePersistentPost, deletePost as deletePersistentPost, getAllPostSlugs as getPersistentPostSlugs } from './posts-memory-persistent';
 
 // Check if Supabase is configured
 function isSupabaseConfigured(): boolean {
@@ -10,8 +10,8 @@ function isSupabaseConfigured(): boolean {
 // Get all posts
 export async function getAllPosts(): Promise<Post[]> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using file storage');
-    return getFilePosts();
+    console.log('Supabase not configured, using persistent memory storage');
+    return getPersistentPosts();
   }
 
   const { data, error } = await supabase
@@ -21,17 +21,17 @@ export async function getAllPosts(): Promise<Post[]> {
 
   if (error) {
     console.error('Error fetching posts:', error);
-    return getFilePosts();
+    return getPersistentPosts();
   }
 
-  return data || getFilePosts();
+  return data || getPersistentPosts();
 }
 
 // Get single post by slug
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using file storage');
-    return getFilePostBySlug(slug);
+    console.log('Supabase not configured, using persistent memory storage');
+    return getPersistentPostBySlug(slug);
   }
 
   const { data, error } = await supabase
@@ -42,7 +42,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   if (error) {
     console.error('Error fetching post:', error);
-    return getFilePostBySlug(slug);
+    return getPersistentPostBySlug(slug);
   }
 
   return data;
@@ -51,8 +51,8 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 // Create new post
 export async function createPost(postData: Omit<Post, 'id' | 'created_at' | 'updated_at'>): Promise<Post> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using file storage for creation');
-    return createFilePost(postData);
+    console.log('Supabase not configured, using persistent memory storage for creation');
+    return createPersistentPost(postData);
   }
 
   const { data, error } = await supabase
@@ -72,8 +72,8 @@ export async function createPost(postData: Omit<Post, 'id' | 'created_at' | 'upd
 // Update existing post
 export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id' | 'slug' | 'created_at' | 'updated_at'>>): Promise<Post> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using file storage for update');
-    return updateFilePost(slug, postData);
+    console.log('Supabase not configured, using persistent memory storage for update');
+    return updatePersistentPost(slug, postData);
   }
 
   const { data, error } = await supabase
@@ -97,8 +97,8 @@ export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id'
 // Delete post
 export async function deletePost(slug: string): Promise<boolean> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using file storage for deletion');
-    return deleteFilePost(slug);
+    console.log('Supabase not configured, using persistent memory storage for deletion');
+    return deletePersistentPost(slug);
   }
 
   const { error } = await supabase
@@ -117,8 +117,8 @@ export async function deletePost(slug: string): Promise<boolean> {
 // Get all post slugs
 export async function getAllPostSlugs(): Promise<string[]> {
   if (!isSupabaseConfigured()) {
-    console.log('Supabase not configured, using file storage');
-    return getFilePostSlugs();
+    console.log('Supabase not configured, using persistent memory storage');
+    return getPersistentPostSlugs();
   }
 
   const { data, error } = await supabase
@@ -127,8 +127,8 @@ export async function getAllPostSlugs(): Promise<string[]> {
 
   if (error) {
     console.error('Error fetching slugs:', error);
-    return getFilePostSlugs();
+    return getPersistentPostSlugs();
   }
 
-  return data?.map(post => post.slug) || getFilePostSlugs();
+  return data?.map(post => post.slug) || getPersistentPostSlugs();
 }
