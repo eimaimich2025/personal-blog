@@ -4,7 +4,7 @@ import { getAllPosts as getPersistentPosts, getPostBySlug as getPersistentPostBy
 
 // Check if Supabase is configured
 function isSupabaseConfigured(): boolean {
-  return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  return !!(supabase && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }
 
 // Get all posts
