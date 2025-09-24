@@ -53,12 +53,9 @@ export default function EditPostPage({ params }: PostPageProps) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simple test - just show success for now to bypass any issues
-    console.log('=== POST UPDATE TEST ===');
-    console.log('Slug:', slug);
-    console.log('Form Data:', formData);
-    
     try {
+      console.log('🔄 Updating post:', { slug, formData });
+      
       const response = await fetch(`/api/posts/${slug}`, {
         method: 'PUT',
         headers: {
@@ -67,31 +64,21 @@ export default function EditPostPage({ params }: PostPageProps) {
         body: JSON.stringify(formData),
       });
 
-      console.log('=== RESPONSE DEBUG ===');
-      console.log('Status:', response.status);
-      console.log('OK:', response.ok);
-      console.log('Status Text:', response.statusText);
-      
-      // Get response text first to see what we're actually getting
-      const responseText = await response.text();
-      console.log('Raw response:', responseText);
+      console.log('📊 Response status:', response.status);
       
       if (response.ok) {
-        try {
-          const result = JSON.parse(responseText);
-          console.log('Parsed result:', result);
-          alert('✅ Post updated successfully!');
-          router.push('/admin');
-        } catch (parseError) {
-          console.error('JSON parse error:', parseError);
-          console.log('Response was not valid JSON, but status was OK');
-          alert('✅ Post updated successfully! (Non-JSON response)');
-          router.push('/admin');
-        }
+        const result = await response.json();
+        console.log('✅ Update successful:', result);
+        
+        // Show success message
+        alert('✅ Post updated successfully!');
+        
+        // Redirect to admin page
+        window.location.href = '/admin';
       } else {
-        console.error('❌ Response not OK:', response.status, response.statusText);
-        console.error('Response body:', responseText);
-        alert(`❌ Failed to update post. Status: ${response.status}`);
+        const error = await response.json();
+        console.error('❌ Update failed:', error);
+        alert(`❌ Failed to update post: ${error.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('❌ Network error:', error);

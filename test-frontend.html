@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Update Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Post Update Frontend Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Basic Fetch Test</h2>
+        <button onclick="testBasicFetch()">Test Basic Fetch</button>
+        <div id="basic-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Post Update Test</h2>
+        <button onclick="testPostUpdate()">Test Post Update</button>
+        <div id="update-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Get Post Test</h2>
+        <button onclick="testGetPost()">Test Get Post</button>
+        <div id="get-result" class="result"></div>
+    </div>
+
+    <script>
+        function log(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = `result ${isError ? 'error' : 'success'}`;
+            console.log(message);
+        }
+
+        async function testBasicFetch() {
+            try {
+                log('basic-result', '🔄 Testing basic fetch...');
+                
+                const response = await fetch('/api/posts');
+                console.log('Response:', response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('basic-result', `✅ Basic fetch successful! Got ${data.length} posts`);
+                } else {
+                    log('basic-result', `❌ Basic fetch failed: ${response.status} ${response.statusText}`, true);
+                }
+            } catch (error) {
+                log('basic-result', `❌ Basic fetch error: ${error.message}`, true);
+            }
+        }
+
+        async function testPostUpdate() {
+            try {
+                log('update-result', '🔄 Testing post update...');
+                
+                const testData = {
+                    title: 'I love yebob',
+                    date: '2024-12-12',
+                    excerpt: 'Test excerpt from frontend',
+                    content: 'This is a test update from the frontend test page'
+                };
+
+                console.log('Sending data:', testData);
+
+                const response = await fetch('/api/posts/i-love-yebob', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData),
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+                const responseText = await response.text();
+                console.log('Raw response:', responseText);
+
+                if (response.ok) {
+                    try {
+                        const result = JSON.parse(responseText);
+                        console.log('Parsed result:', result);
+                        log('update-result', `✅ Post update successful!<br><pre>${JSON.stringify(result, null, 2)}</pre>`);
+                    } catch (parseError) {
+                        log('update-result', `✅ Post update successful (non-JSON response)<br><pre>${responseText}</pre>`);
+                    }
+                } else {
+                    log('update-result', `❌ Post update failed: ${response.status} ${response.statusText}<br><pre>${responseText}</pre>`, true);
+                }
+            } catch (error) {
+                log('update-result', `❌ Post update error: ${error.message}`, true);
+            }
+        }
+
+        async function testGetPost() {
+            try {
+                log('get-result', '🔄 Testing get post...');
+                
+                const response = await fetch('/api/posts/i-love-yebob');
+                console.log('Get response:', response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('get-result', `✅ Get post successful!<br><pre>${JSON.stringify(data, null, 2)}</pre>`);
+                } else {
+                    log('get-result', `❌ Get post failed: ${response.status} ${response.statusText}`, true);
+                }
+            } catch (error) {
+                log('get-result', `❌ Get post error: ${error.message}`, true);
+            }
+        }
+    </script>
+</body>
+</html>
