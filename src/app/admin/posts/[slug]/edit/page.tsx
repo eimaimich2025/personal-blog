@@ -54,6 +54,8 @@ export default function EditPostPage({ params }: PostPageProps) {
     setIsSubmitting(true);
 
     try {
+      console.log('Sending update request:', { slug, formData });
+      
       const response = await fetch(`/api/posts/${slug}`, {
         method: 'PUT',
         headers: {
@@ -62,9 +64,15 @@ export default function EditPostPage({ params }: PostPageProps) {
         body: JSON.stringify(formData),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (response.ok) {
         const result = await response.json();
         console.log('Post updated successfully:', result);
+        
+        // Show success message
+        alert('Post updated successfully!');
         
         // If slug changed, redirect to the new post URL
         if (result.slugChanged && result.slug !== slug) {
