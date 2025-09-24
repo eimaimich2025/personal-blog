@@ -53,9 +53,12 @@ export default function EditPostPage({ params }: PostPageProps) {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Simple test - just show success for now to bypass any issues
+    console.log('=== POST UPDATE TEST ===');
+    console.log('Slug:', slug);
+    console.log('Form Data:', formData);
+    
     try {
-      console.log('Sending update request:', { slug, formData });
-      
       const response = await fetch(`/api/posts/${slug}`, {
         method: 'PUT',
         headers: {
@@ -64,30 +67,35 @@ export default function EditPostPage({ params }: PostPageProps) {
         body: JSON.stringify(formData),
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-
+      console.log('=== RESPONSE DEBUG ===');
+      console.log('Status:', response.status);
+      console.log('OK:', response.ok);
+      console.log('Status Text:', response.statusText);
+      
+      // Get response text first to see what we're actually getting
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+      
       if (response.ok) {
-        const result = await response.json();
-        console.log('Post updated successfully:', result);
-        
-        // Show success message
-        alert('Post updated successfully!');
-        
-        // If slug changed, redirect to the new post URL
-        if (result.slugChanged && result.slug !== slug) {
-          router.push(`/admin/posts/${result.slug}/edit`);
-        } else {
+        try {
+          const result = JSON.parse(responseText);
+          console.log('Parsed result:', result);
+          alert('✅ Post updated successfully!');
+          router.push('/admin');
+        } catch (parseError) {
+          console.error('JSON parse error:', parseError);
+          console.log('Response was not valid JSON, but status was OK');
+          alert('✅ Post updated successfully! (Non-JSON response)');
           router.push('/admin');
         }
       } else {
-        const error = await response.json();
-        console.error('Failed to update post:', error);
-        alert(`Failed to update post: ${error.error || 'Please try again.'}`);
+        console.error('❌ Response not OK:', response.status, response.statusText);
+        console.error('Response body:', responseText);
+        alert(`❌ Failed to update post. Status: ${response.status}`);
       }
     } catch (error) {
-      console.error('Error updating post:', error);
-      alert('Error updating post. Please try again.');
+      console.error('❌ Network error:', error);
+      alert('❌ Network error. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
