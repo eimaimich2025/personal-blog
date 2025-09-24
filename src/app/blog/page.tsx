@@ -10,11 +10,11 @@ export default async function Blog() {
   
   // Categories based on actual content
   const categories = [
-    { name: 'Entrepreneurship', count: 2, color: 'purple' },
-    { name: 'AI & Technology', count: 1, color: 'blue' },
-    { name: 'Personal Growth', count: 2, color: 'green' },
-    { name: 'Productivity', count: 1, color: 'yellow' },
-    { name: 'Reflections', count: 1, color: 'pink' }
+    { name: 'Entrepreneurship', color: 'purple' },
+    { name: 'AI & Technology', color: 'blue' },
+    { name: 'Personal Growth', color: 'green' },
+    { name: 'Productivity', color: 'yellow' },
+    { name: 'Reflections', color: 'pink' }
   ];
 
   const tags = [
@@ -122,9 +122,6 @@ export default async function Blog() {
                     <h3 className="text-lg font-bold text-white mb-2">
                       {category.name}
                     </h3>
-                    <p className="text-gray-400 text-sm">
-                      {category.count} articles
-                    </p>
                   </div>
                 </FadeInWrapper>
               ))}
