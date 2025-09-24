@@ -19,8 +19,8 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-white hover:text-transparent hover:bg-gradient-to-r hover:from-purple-400 hover:to-pink-400 hover:bg-clip-text transition-all duration-300">
-              <span className="gradient-text">Eric's Universe</span>
+            <Link href="/" className="text-2xl font-light text-purple-300/20 hover:text-purple-300/40 transition-all duration-300">
+              <span>Eric Imai</span>
             </Link>
           </div>
           
@@ -40,14 +40,6 @@ export default function Header() {
             </Link>
             <Link href="/store" className="text-gray-300 hover:text-white transition-colors duration-300 relative group">
               <span>Store</span>
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/about" className="text-gray-300 hover:text-white transition-colors duration-300 relative group">
-              <span>About</span>
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/lessons" className="text-gray-300 hover:text-white transition-colors duration-300 relative group">
-              <span>Lessons</span>
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/prompts" className="text-gray-300 hover:text-white transition-colors duration-300 relative group">
@@ -113,20 +105,6 @@ export default function Header() {
                 onClick={closeMobileMenu}
               >
                 Store
-              </Link>
-              <Link 
-                href="/about" 
-                className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors duration-300"
-                onClick={closeMobileMenu}
-              >
-                About
-              </Link>
-              <Link 
-                href="/lessons" 
-                className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors duration-300"
-                onClick={closeMobileMenu}
-              >
-                Lessons
               </Link>
               <Link 
                 href="/prompts" 

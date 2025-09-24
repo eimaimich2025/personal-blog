@@ -12,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Digital Universe - Personal Blog",
-  description: "Exploring the infinite possibilities of technology and creativity in the digital cosmos",
+  title: "Eric Imai - Personal Blog",
+  description: "Insights on entrepreneurship, AI, and life lessons from my journey",
 };
 
 export default function RootLayout({

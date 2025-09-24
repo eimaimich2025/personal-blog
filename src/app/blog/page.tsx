@@ -8,13 +8,13 @@ export const dynamic = 'force-dynamic';
 export default async function Blog() {
   const posts = await getSortedPostsData();
   
-  // Mock categories and tags for demonstration
+  // Categories based on actual content
   const categories = [
-    { name: 'Entrepreneurship', count: 12, color: 'purple' },
-    { name: 'AI & Technology', count: 8, color: 'blue' },
-    { name: 'Personal Growth', count: 15, color: 'green' },
-    { name: 'Productivity', count: 6, color: 'yellow' },
-    { name: 'Reflections', count: 10, color: 'pink' }
+    { name: 'Entrepreneurship', count: 2, color: 'purple' },
+    { name: 'AI & Technology', count: 1, color: 'blue' },
+    { name: 'Personal Growth', count: 2, color: 'green' },
+    { name: 'Productivity', count: 1, color: 'yellow' },
+    { name: 'Reflections', count: 1, color: 'pink' }
   ];
 
   const tags = [
@@ -39,14 +39,11 @@ export default async function Blog() {
               honest thoughts on building the future.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <div className="bg-purple-500/20 border border-purple-500/30 rounded-lg px-4 py-2">
-                <span className="text-purple-400 font-medium">{posts.length} Articles</span>
-              </div>
               <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg px-4 py-2">
-                <span className="text-blue-400 font-medium">5 Categories</span>
+                <span className="text-blue-400 font-medium">5 Topics</span>
               </div>
               <div className="bg-green-500/20 border border-green-500/30 rounded-lg px-4 py-2">
-                <span className="text-green-400 font-medium">Weekly Updates</span>
+                <span className="text-green-400 font-medium">Personal Insights</span>
               </div>
             </div>
           </FadeInWrapper>
@@ -217,7 +214,7 @@ export default async function Blog() {
                 </button>
               </div>
               <p className="text-gray-400 text-sm mt-4">
-                Join 1,200+ entrepreneurs and creators
+                Get insights delivered to your inbox
               </p>
             </div>
           </div>
