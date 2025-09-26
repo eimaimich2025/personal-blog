@@ -1,12 +1,52 @@
-import { getSortedPostsData } from '@/lib/posts';
+'use client';
+
+import { useState, useEffect } from 'react';
 import PostCard from '@/components/PostCard';
 import FadeInWrapper from '@/components/FadeInWrapper';
 
-// Force dynamic rendering to ensure fresh data from Supabase
-export const dynamic = 'force-dynamic';
+interface Post {
+  id?: number;
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  content: string;
+  created_at?: string;
+  updated_at?: string;
+}
 
-export default async function Blog() {
-  const posts = await getSortedPostsData();
+export default function Blog() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch posts from API
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch('/api/posts', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+    
+    // Refresh posts every 5 seconds for real-time updates
+    const interval = setInterval(fetchPosts, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
   
   // Categories based on actual content
   const categories = [
@@ -141,7 +181,19 @@ export default async function Blog() {
               </p>
             </div>
 
-            {posts.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="glass-dark rounded-2xl p-12 max-w-md mx-auto">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-white animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </div>
+                  <p className="text-gray-300 text-lg">Loading posts...</p>
+                  <p className="text-gray-400 mt-2">Fetching fresh content from database</p>
+                </div>
+              </div>
+            ) : posts.length === 0 ? (
               <div className="text-center py-12">
                 <div className="glass-dark rounded-2xl p-12 max-w-md mx-auto">
                   <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">

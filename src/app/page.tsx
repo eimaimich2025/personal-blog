@@ -1,14 +1,55 @@
-import { getSortedPostsData } from '@/lib/posts';
+'use client';
+
+import { useState, useEffect } from 'react';
 import PostCard from '@/components/PostCard';
 import AtmosphericBackground from '@/components/AtmosphericBackground';
 import FadeInWrapper from '@/components/FadeInWrapper';
 import Link from 'next/link';
 
-// Force dynamic rendering
-export const dynamic = 'force-dynamic';
+interface Post {
+  id?: number;
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  content: string;
+  created_at?: string;
+  updated_at?: string;
+}
 
-export default async function Home() {
-  const posts = await getSortedPostsData();
+export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch posts from API
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch('/api/posts', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+    
+    // Refresh posts every 5 seconds for real-time updates
+    const interval = setInterval(fetchPosts, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   const featuredPost = posts[0]; // Get the latest post as featured
 
   return (
