@@ -42,8 +42,11 @@ export default function Blog() {
   useEffect(() => {
     fetchPosts();
     
-    // Refresh posts every 5 seconds for real-time updates
-    const interval = setInterval(fetchPosts, 5000);
+    // Refresh posts every 10 seconds for real-time updates
+    const interval = setInterval(() => {
+      console.log('Auto-refreshing posts...');
+      fetchPosts();
+    }, 10000);
     
     return () => clearInterval(interval);
   }, []);
@@ -176,9 +179,15 @@ export default function Blog() {
               <h2 className="text-3xl font-bold text-white mb-4">
                 All Articles
               </h2>
-              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-4">
                 Every insight, lesson, and story from my journey
               </p>
+              <button
+                onClick={fetchPosts}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                🔄 Refresh Posts
+              </button>
             </div>
 
             {loading ? (
