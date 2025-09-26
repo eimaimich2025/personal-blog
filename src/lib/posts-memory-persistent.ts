@@ -91,47 +91,31 @@ export function createPost(postData: Omit<Post, 'id' | 'created_at' | 'updated_a
 
 // Update existing post
 export function updatePost(slug: string, postData: Partial<Omit<Post, 'id' | 'slug' | 'created_at' | 'updated_at'>>): Post {
-  try {
-    const posts = globalThis.__persistentPosts || defaultPosts;
-    const postIndex = posts.findIndex(post => post.slug === slug);
-    
-    if (postIndex === -1) {
-      throw new Error(`Post with slug "${slug}" not found`);
-    }
-    
-    const updatedPost = {
-      ...posts[postIndex],
-      ...postData,
-      updated_at: new Date().toISOString()
-    };
-    
-    // If slug is being updated, check for conflicts
-    if (postData.slug && postData.slug !== slug) {
-      const existingPostWithNewSlug = posts.find(post => post.slug === postData.slug && post.id !== posts[postIndex].id);
-      if (existingPostWithNewSlug) {
-        throw new Error(`A post with slug "${postData.slug}" already exists`);
-      }
-    }
-    
-    const updatedPosts = [...posts];
-    updatedPosts[postIndex] = updatedPost;
-    globalThis.__persistentPosts = updatedPosts;
-    return updatedPost;
-  } catch (error) {
-    console.error('Error in updatePost:', error);
-    // For now, return a mock success response to prevent the 500 error
-    const mockPost = {
-      id: 1,
-      slug: slug,
-      title: postData.title || 'Updated Post',
-      date: postData.date || '2024-12-12',
-      excerpt: postData.excerpt || 'Updated excerpt',
-      content: postData.content || 'Updated content',
-      created_at: '2024-12-12T00:00:00Z',
-      updated_at: new Date().toISOString()
-    };
-    return mockPost;
+  const posts = globalThis.__persistentPosts || defaultPosts;
+  const postIndex = posts.findIndex(post => post.slug === slug);
+  
+  if (postIndex === -1) {
+    throw new Error(`Post with slug "${slug}" not found`);
   }
+  
+  const updatedPost = {
+    ...posts[postIndex],
+    ...postData,
+    updated_at: new Date().toISOString()
+  };
+  
+  // If slug is being updated, check for conflicts
+  if (postData.slug && postData.slug !== slug) {
+    const existingPostWithNewSlug = posts.find(post => post.slug === postData.slug && post.id !== posts[postIndex].id);
+    if (existingPostWithNewSlug) {
+      throw new Error(`A post with slug "${postData.slug}" already exists`);
+    }
+  }
+  
+  const updatedPosts = [...posts];
+  updatedPosts[postIndex] = updatedPost;
+  globalThis.__persistentPosts = updatedPosts;
+  return updatedPost;
 }
 
 // Delete post
