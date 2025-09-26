@@ -10,22 +10,22 @@ export default function Store() {
           title: "Atomic Habits",
           author: "James Clear",
           description: "The definitive guide to building good habits and breaking bad ones. This book completely changed how I approach personal development.",
-          amazonUrl: "https://amazon.com/dp/0735211299",
-          image: "https://images-na.ssl-images-amazon.com/images/I/81bGKUa1e0L._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/0735211299?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/81bGKUa1e0L._SL1000_.jpg"
         },
         {
           title: "The Lean Startup",
           author: "Eric Ries",
           description: "Essential reading for any entrepreneur. The methodology in this book saved me months of wasted effort on my first startup.",
-          amazonUrl: "https://amazon.com/dp/0307887898",
-          image: "https://images-na.ssl-images-amazon.com/images/I/81-QB7nDh4L._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/0307887898?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/81-QB7nDh4L._SL1000_.jpg"
         },
         {
           title: "Thinking, Fast and Slow",
           author: "Daniel Kahneman",
           description: "A masterclass in understanding human psychology and decision-making. Every business leader should read this.",
-          amazonUrl: "https://amazon.com/dp/0374533555",
-          image: "https://images-na.ssl-images-amazon.com/images/I/81vQhOQ9KIL._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/0374533555?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/81vQhOQ9KIL._SL1000_.jpg"
         }
       ]
     },
@@ -37,22 +37,22 @@ export default function Store() {
           title: "Outliers",
           author: "Malcolm Gladwell",
           description: "A fascinating exploration of what makes high-achievers different. Gladwell's insights on the 10,000-hour rule and cultural legacies changed how I think about success.",
-          amazonUrl: "https://amazon.com/dp/0316017930",
-          image: "https://images-na.ssl-images-amazon.com/images/I/81kqrwS-TnL._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/0316017930?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/81kqrwS-TnL._SL1000_.jpg"
         },
         {
           title: "The Tipping Point",
           author: "Malcolm Gladwell",
           description: "How little things can make a big difference. This book taught me about the power of social epidemics and how ideas spread.",
-          amazonUrl: "https://amazon.com/dp/0316346624",
-          image: "https://images-na.ssl-images-amazon.com/images/I/71QKQ9mwV7L._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/0316346624?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._SL1000_.jpg"
         },
         {
           title: "Blink",
           author: "Malcolm Gladwell",
           description: "The power of thinking without thinking. A brilliant look at how we make snap judgments and when to trust our instincts.",
-          amazonUrl: "https://amazon.com/dp/0316010669",
-          image: "https://images-na.ssl-images-amazon.com/images/I/71QKQ9mwV7L._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/0316010669?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._SL1000_.jpg"
         }
       ]
     },
@@ -64,22 +64,22 @@ export default function Store() {
           title: "Notion Pro",
           author: "Notion Labs",
           description: "My digital brain. I use it for everything from project management to knowledge base building.",
-          amazonUrl: "https://amazon.com/dp/B08N5WRWNW",
-          image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudCIgeDE9IjAiIHkxPSIwIiB4Mj0iMjAwIiB5Mj0iMzAwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM2MzY2RjEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOUI0RkZGIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHN2ZyB4PSI3NSIgeT0iMTIwIiB3aWR0aD0iNTAiIGhlaWdodD0iNjAiIGZpbGw9IndoaXRlIiB2aWV3Qm94PSIwIDAgMjQgMjQiPgo8cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJTNi40OCAyMiAxMiAyMlMyMiAxNy41MiAyMiAxMlMxNy41MiAyIDEyIDJaTTEzIDE3SDExVjE1SDEzVjE3Wk0xMyAxM0gxMVY3SDEzVjEzWiIvPgo8L3N2Zz4KPC9zdmc+"
+          amazonUrl: "https://www.notion.so/product",
+          image: "https://www.notion.so/images/logo-ios.png"
         },
         {
           title: "Deep Work",
           author: "Cal Newport",
           description: "The book that taught me how to focus in our distracted world. Essential for knowledge workers.",
-          amazonUrl: "https://amazon.com/dp/1455586692",
-          image: "https://images-na.ssl-images-amazon.com/images/I/71QKQ9mwV7L._AC_UL600_SR600,600_.jpg"
+          amazonUrl: "https://www.amazon.com/dp/1455586692?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._SL1000_.jpg"
         },
         {
           title: "Standing Desk Converter",
           author: "FlexiSpot",
           description: "Health is wealth. This standing desk converter keeps me active during long work sessions.",
-          amazonUrl: "https://amazon.com/dp/B07QYZXT4K",
-          image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudCIgeDE9IjAiIHkxPSIwIiB4Mj0iMjAwIiB5Mj0iMzAwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM4QjVDQjUiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMkRENDA2Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHN2ZyB4PSI3NSIgeT0iMTIwIiB3aWR0aD0iNTAiIGhlaWdodD0iNjAiIGZpbGw9IndoaXRlIiB2aWV3Qm94PSIwIDAgMjQgMjQiPgo8cGF0aCBkPSJNMTkgM0g1QzMuOSAzIDMgMy45IDMgNVYxOUMzIDIwLjEgMy45IDIxIDUgMjFIMTlDMjAuMSAyMSAyMSAyMC4xIDIxIDE5VjVDMjEgMy45IDIwLjEgMyAxOSAzWk0xOSAxOUg1VjVIMTlWMTlaTTE3IDdIN1Y5SDE3VjdaTTE3IDExSDdWMTNIMTdWMTFaTTE3IDE1SDdWMTdIMTdWMTVaIi8+Cjwvc3ZnPgo8L3N2Zz4="
+          amazonUrl: "https://www.amazon.com/dp/B07QYZXT4K?tag=YOUR_AFFILIATE_TAG&linkCode=ur2&camp=1789&creative=9325",
+          image: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._SL1000_.jpg"
         }
       ]
     }
@@ -126,11 +126,11 @@ export default function Store() {
                     <FadeInWrapper key={item.title} delay={itemIndex * 100}>
                       <div className="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
                                {/* Product Image */}
-                               <div className="w-full h-48 rounded-lg mb-4 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                               <div className="w-full h-48 rounded-lg mb-4 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                                  <img 
                                    src={item.image} 
                                    alt={`${item.title} by ${item.author}`}
-                                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                   className="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-300"
                                    loading="lazy"
                                  />
                                </div>

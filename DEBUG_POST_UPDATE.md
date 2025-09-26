@@ -92,3 +92,4 @@ The blog works with **global storage** by default (no database required). If you
 - `/src/lib/posts-global.ts` - Improved slug validation
 
 The fix ensures that post updates work reliably whether using global storage or Supabase database.
+
