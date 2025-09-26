@@ -4,18 +4,37 @@ import { getAllPosts as getPersistentPosts, getPostBySlug as getPersistentPostBy
 
 // Check if Supabase is configured
 function isSupabaseConfigured(): boolean {
-  // Force using persistent memory for now to avoid Supabase issues
-  return false;
-  // const hasUrl = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co';
-  // const hasKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== 'placeholder-key';
-  // return !!(supabase && hasUrl && hasKey);
+  const hasUrl = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co';
+  const hasKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== 'placeholder-key';
+  return !!(supabase && hasUrl && hasKey);
 }
 
 // Get all posts
 export async function getAllPosts(): Promise<Post[]> {
-  // Always use persistent memory storage for now
-  console.log('Using persistent memory storage for posts');
-  return getPersistentPosts();
+  if (!isSupabaseConfigured()) {
+    console.log('Supabase not configured, using persistent memory storage');
+    return getPersistentPosts();
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching posts from Supabase:', error);
+      console.log('Falling back to persistent memory storage');
+      return getPersistentPosts();
+    }
+
+    console.log('Using Supabase for posts');
+    return data || [];
+  } catch (error) {
+    console.error('Exception fetching posts from Supabase:', error);
+    console.log('Falling back to persistent memory storage');
+    return getPersistentPosts();
+  }
 }
 
 // Get single post by slug
