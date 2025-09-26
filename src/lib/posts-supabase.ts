@@ -23,18 +23,25 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     return getPersistentPostBySlug(slug);
   }
 
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('slug', slug)
+      .single();
 
-  if (error) {
-    console.error('Error fetching post:', error);
+    if (error) {
+      console.error('Error fetching post from Supabase:', error);
+      console.log('Falling back to persistent memory storage');
+      return getPersistentPostBySlug(slug);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Exception fetching post from Supabase:', error);
+    console.log('Falling back to persistent memory storage');
     return getPersistentPostBySlug(slug);
   }
-
-  return data;
 }
 
 // Create new post
@@ -65,22 +72,29 @@ export async function updatePost(slug: string, postData: Partial<Omit<Post, 'id'
     return updatePersistentPost(slug, postData);
   }
 
-  const { data, error } = await supabase
-    .from('posts')
-    .update({
-      ...postData,
-      updated_at: new Date().toISOString()
-    })
-    .eq('slug', slug)
-    .select()
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .update({
+        ...postData,
+        updated_at: new Date().toISOString()
+      })
+      .eq('slug', slug)
+      .select()
+      .single();
 
-  if (error) {
-    console.error('Error updating post:', error);
-    throw new Error('Failed to update post');
+    if (error) {
+      console.error('Error updating post in Supabase:', error);
+      console.log('Falling back to persistent memory storage');
+      return updatePersistentPost(slug, postData);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Exception updating post in Supabase:', error);
+    console.log('Falling back to persistent memory storage');
+    return updatePersistentPost(slug, postData);
   }
-
-  return data;
 }
 
 // Delete post
@@ -110,14 +124,21 @@ export async function getAllPostSlugs(): Promise<string[]> {
     return getPersistentPostSlugs();
   }
 
-  const { data, error } = await supabase
-    .from('posts')
-    .select('slug');
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .select('slug');
 
-  if (error) {
-    console.error('Error fetching slugs:', error);
+    if (error) {
+      console.error('Error fetching slugs from Supabase:', error);
+      console.log('Falling back to persistent memory storage');
+      return getPersistentPostSlugs();
+    }
+
+    return data?.map(post => post.slug) || getPersistentPostSlugs();
+  } catch (error) {
+    console.error('Exception fetching slugs from Supabase:', error);
+    console.log('Falling back to persistent memory storage');
     return getPersistentPostSlugs();
   }
-
-  return data?.map(post => post.slug) || getPersistentPostSlugs();
 }
