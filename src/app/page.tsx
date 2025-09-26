@@ -44,11 +44,10 @@ export default function Home() {
   useEffect(() => {
     fetchPosts();
     
-    // Refresh posts every 10 seconds for real-time updates
+    // Refresh posts every 5 seconds for real-time updates
     const interval = setInterval(() => {
-      console.log('Auto-refreshing posts...');
       fetchPosts();
-    }, 10000);
+    }, 5000);
     
     return () => clearInterval(interval);
   }, []);

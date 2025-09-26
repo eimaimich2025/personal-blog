@@ -18,9 +18,11 @@ interface Post {
 export default function Blog() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Fetch posts from API
   const fetchPosts = async () => {
+    if (!loading) setRefreshing(true);
     try {
       const response = await fetch('/api/posts', {
         cache: 'no-store',
@@ -36,17 +38,17 @@ export default function Blog() {
       console.error('Error fetching posts:', error);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   };
 
   useEffect(() => {
     fetchPosts();
     
-    // Refresh posts every 10 seconds for real-time updates
+    // Refresh posts every 5 seconds for real-time updates
     const interval = setInterval(() => {
-      console.log('Auto-refreshing posts...');
       fetchPosts();
-    }, 10000);
+    }, 5000);
     
     return () => clearInterval(interval);
   }, []);
@@ -176,18 +178,20 @@ export default function Blog() {
         <FadeInWrapper delay={300}>
           <div className="mb-20">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                All Articles
-              </h2>
-              <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-4">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <h2 className="text-3xl font-bold text-white">
+                  All Articles
+                </h2>
+                {refreshing && (
+                  <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                )}
+              </div>
+              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
                 Every insight, lesson, and story from my journey
+                {refreshing && (
+                  <span className="text-blue-400 text-sm ml-2">• Live updates</span>
+                )}
               </p>
-              <button
-                onClick={fetchPosts}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                🔄 Refresh Posts
-              </button>
             </div>
 
             {loading ? (
